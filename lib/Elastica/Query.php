@@ -330,8 +330,10 @@ class Query extends Param
             $this->setQuery(new MatchAll());
         }
 
-        if (isset($this->_params['post_filter']) && 0 === count($this->_params['post_filter']->toArray())) {
-            unset($this->_params['post_filter']);
+        if (isset($this->_params['post_filter'])) {
+            if ((is_array($this->_params['post_filter']) && 0 === count($this->_params['post_filter'])) || ($this->_params['post_filter'] instanceof AbstractQuery && 0 === count($this->_params['post_filter']->toArray()))) {
+                unset($this->_params['post_filter']);
+            }
         }
 
         $array = $this->_convertArrayable($this->_params);
